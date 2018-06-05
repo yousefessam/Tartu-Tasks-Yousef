@@ -39,7 +39,7 @@ myVectFun = np.vectorize(myFunc)
 y_data = myVectFun(y_data)
 #zip(x_data,y_data) [0:5]
 # add some noise
-
+#
 a = tf.Variable(1.0)
 b = tf.Variable(0.2)
 y = a * x_data + b
