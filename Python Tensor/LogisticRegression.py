@@ -13,19 +13,25 @@ from sklearn.datasets import load_iris
 from sklearn.cross_validation import train_test_split
 import matplotlib.pyplot as plt
 
+#Prepare dataset
 iris = load_iris()
 iris_X, iris_y = iris.data[:-1,:], iris.target[:-1]
 iris_y= pd.get_dummies(iris_y).values
 trainX, testX, trainY, testY = train_test_split(iris_X, iris_y, test_size=0.33, random_state=42)
 
+
+#Get Number of features(inputs)
 numFeatures = trainX.shape[1]
+#Get number of outputs
 numLabels = trainY.shape[1]
 
+
+#To Allow enter data to model
 X = tf.placeholder(tf.float32, [None, numFeatures]) 
 yGold = tf.placeholder(tf.float32, [None, numLabels])
 
-W = tf.Variable(tf.zeros([4, 3])) 
-b = tf.Variable(tf.zeros([3]))
+#W = tf.Variable(tf.zeros([4, 3])) 
+#b = tf.Variable(tf.zeros([3]))
 
 weights = tf.Variable(tf.random_normal([numFeatures,numLabels],
                                        mean=0,
@@ -74,23 +80,23 @@ correct_predictions_OP = tf.equal(tf.argmax(activation_OP,1),tf.argmax(yGold,1))
 accuracy_OP = tf.reduce_mean(tf.cast(correct_predictions_OP, "float"))
 
 # Summary op for regression output
-activation_summary_OP = tf.summary.histogram("output", activation_OP)
-
-# Summary op for accuracy
-accuracy_summary_OP = tf.summary.scalar("accuracy", accuracy_OP)
-
-# Summary op for cost
-cost_summary_OP = tf.summary.scalar("cost", cost_OP)
-
-# Summary ops to check how variables (W, b) are updating after each iteration
-weightSummary = tf.summary.histogram("weights", weights.eval(session=sess))
-biasSummary = tf.summary.histogram("biases", bias.eval(session=sess))
-
-# Merge all summaries
-merged = tf.summary.merge([activation_summary_OP, accuracy_summary_OP, cost_summary_OP, weightSummary, biasSummary])
-
-# Summary writer
-writer = tf.summary.FileWriter("summary_logs", sess.graph)
+#activation_summary_OP = tf.summary.histogram("output", activation_OP)
+#
+## Summary op for accuracy
+#accuracy_summary_OP = tf.summary.scalar("accuracy", accuracy_OP)
+#
+## Summary op for cost
+#cost_summary_OP = tf.summary.scalar("cost", cost_OP)
+#
+## Summary ops to check how variables (W, b) are updating after each iteration
+#weightSummary = tf.summary.histogram("weights", weights.eval(session=sess))
+#biasSummary = tf.summary.histogram("biases", bias.eval(session=sess))
+#
+## Merge all summaries
+#merged = tf.summary.merge([activation_summary_OP, accuracy_summary_OP, cost_summary_OP, weightSummary, biasSummary])
+#
+## Summary writer
+#writer = tf.summary.FileWriter("f:\log\", sess.graph)
 
 
 
